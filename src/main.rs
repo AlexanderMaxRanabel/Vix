@@ -81,6 +81,21 @@ fn main() {
                     eprintln!("Failed to execute command. error: {}", stderr);
                 }
             },
+
+            "delete" => {
+                let output = Command::new("nix-env")
+                    .arg("--uninstall")
+                    .arg(installion_argument)
+                    .output()
+                    .expect("Failed to run command");
+
+                if output.status.success() {
+                    println!("Succesfully executed command");
+                } else {
+                    let stderr = String::from_utf8_lossy(&output.stderr);
+                    eprintln!("Failed to execute command. error: {}", stderr);
+                }
+            },
             _ => {
                 println!("Invalid Argument");
             }
