@@ -2,7 +2,7 @@
 ## A Small Wrapper for Nix Package Manager
 
 ### Dependencies
-- Rust Programming language (1.69 =>)
+- Rust Programming language (1.69 or later)
 - Nix Package manager(duh?)
 - A Unix-like operating system
 - Git
