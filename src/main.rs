@@ -1,16 +1,20 @@
 use std::env;
 use std::process::Command;
+use std::fs::File;
+use std::io::{BufRead, BufReader};
 
 fn is_nixos() -> bool {
-    let output = Command::new("nixos-version")
-        .output()
-        .ok()
-        .and_then(|output| String::from_utf8(output.stdout).ok());
-
-    match output {
-        Some(stdout) => stdout.trim() == "NixOS",
-        None => false,
+    if let Ok(file) = File::open("/etc/os-release") {
+        let reader = BufReader::new(file);
+        for line in reader.lines() {
+            if let Ok(line) = line {
+                if line.starts_with("ID=nixos") {
+                    return true;
+                }
+            }
+        }
     }
+    false
 }
 
 fn main() {
@@ -152,6 +156,7 @@ fn main() {
                .expect("Failed to run command");
 
              if output.status.success() {
+                println!("{:#?}", output);
                 println!("Succesfully runned command");
             } else {
                 let stderr = String::from_utf8_lossy(&output.stderr);
@@ -193,6 +198,7 @@ fn main() {
                     .output()
                     .expect("Failed to run command");
                 if output.status.success() {
+                    println!("{:#?}", output);
                     println!("Succesfully executed command");
                 } else {
                     let stderr = String::from_utf8_lossy(&output.stderr);
