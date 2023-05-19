@@ -7,7 +7,7 @@
 - A Unix-like operating system
 - Git
 
-### Installion
+### Installation
 - Clone repo using ```git clone https://github.com/AlexanderMaxRanabel/Vix.git```
 - cd into directory cloned project is at
 - Run ```cargo build```
