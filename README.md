@@ -1,4 +1,4 @@
-# Vix
+# Oxygen
 ## A Small Wrapper for Nix Package Manager
 
 ### Dependencies
@@ -8,10 +8,10 @@
 - Git
 
 ### Installation
-- Clone repo using ```git clone https://github.com/AlexanderMaxRanabel/Vix.git```
+- Clone repo using ```git clone https://github.com/AlexanderMaxRanabel/Oxygen.git```
 - cd into directory cloned project is at
 - Run ```cargo build```
 - Executable Now Should be at target/debug
 
  ## Licensing
-Vix is licensed under at GNU Lesser General Public License 2.1. See LICENSE for more information
+Oxygen is licensed under at GNU Lesser General Public License 2.1. See LICENSE for more information
