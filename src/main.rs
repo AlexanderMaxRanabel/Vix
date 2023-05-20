@@ -85,6 +85,20 @@ fn main() {
                 }
             },
 
+            "clear-generations" => {
+                let output = Command::new("nix-collect-garbage")
+                .arg("-d")
+                .output()
+                .expect("Failed to run command");
+
+                if output.status.success() {
+                    println!("Succesfully executed command");
+                } else {
+                    let stderr = String::from_utf8_lossy(&output.stderr);
+                    eprintln!("Failed to execute command. error: {}", stderr);
+                 }
+            },
+
             "delete" => {
                 let output = Command::new("nix-env")
                     .arg("--uninstall")
@@ -203,6 +217,20 @@ fn main() {
                     let stderr = String::from_utf8_lossy(&output.stderr);
                     eprintln!("Failed to execute command. error: {}", stderr);
                 }
+            },
+
+            "clear-generations" => {
+                let output = Command::new("nix-collect-garbage")
+                .arg("-d")
+                .output()
+                .expect("Failed to run command");
+
+                if output.status.success() {
+                    println!("Succesfully executed command");
+                } else {
+                    let stderr = String::from_utf8_lossy(&output.stderr);
+                    eprintln!("Failed to execute command. error: {}", stderr);
+                 }
             },
 
             "generations" => {
