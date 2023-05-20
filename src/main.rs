@@ -112,6 +112,19 @@ fn main() {
                     eprintln!("Failed to execute command. error: {}", stderr);
                }
              },
+
+             "help" => {
+                println!("install <package name>: installs the specified package");
+                println!("delete <package name>: deletes specified package");
+                println!("clear: Garbage collects Nix");
+                println!("list: lists installed packages");
+                println!("generations: lists generations");
+
+             },
+
+            "version" => {
+                println!("0.1.1");
+            },
             _ => {
                 println!("Invalid Argument");
             }
