@@ -127,6 +127,19 @@ fn main() {
                }
              },
 
+             "update" => {
+                let output = Command::new("nix-env")
+                    .arg("-u")
+                    .output()
+                    .expect("Failed to run command");
+                if output.status.success() {
+                    println!("Successfully executed command");
+                } else {
+                    let stderr = String::from_utf8_lossy(&output.stderr);
+                    eprintln!("Failed to execute command. error: {}", stderr);
+                }
+             },
+
              "help" => {
                 println!("install <package name>: installs the specified package");
                 println!("delete <package name>: deletes specified package");
@@ -276,6 +289,29 @@ fn main() {
                     eprintln!("Failed to execute command. error: {}", stderr);
                 }
             },
+
+            "update" => {
+                let output = Command::new("nix-env")
+                    .arg("-u")
+                    .output()
+                    .expect("Failed to run command");
+                if output.status.success() {
+                    println!("Successfully executed command");
+                } else {
+                    let stderr = String::from_utf8_lossy(&output.stderr);
+                    eprintln!("Failed to execute command. error: {}", stderr);
+                }
+             },
+
+           "help" => {
+                println!("install <package name>: installs the specified package");
+                println!("delete <package name>: deletes specified package");
+                println!("clear: Garbage collects Nix");
+                println!("list: lists installed packages");
+                println!("generations: lists generations");
+
+             },
+
             _ => {
                 println!("Invalid Argument");
             }
