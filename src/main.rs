@@ -127,16 +127,32 @@ fn main() {
                }
              },
 
-             "update" => {
-                let output = Command::new("nix-env")
-                    .arg("-u")
+             "rebuild" => {
+                let output = Command::new("nixos-rebuild")
+                    .arg("switch")
                     .output()
                     .expect("Failed to run command");
+
                 if output.status.success() {
-                    println!("Successfully executed command");
+                    println!("Builded system");
                 } else {
                     let stderr = String::from_utf8_lossy(&output.stderr);
-                    eprintln!("Failed to execute command. error: {}", stderr);
+                    eprintln!("Failed to execute command. error {}", stderr);
+                }
+             },
+
+             "switch" =>  {
+                 let output = Command::new("nix-env")
+                     .arg("--switch-generation")
+                     .arg(installion_argument.clone())
+                     .output()
+                     .expect("Failed to run command");
+
+                if output.status.success() {
+                    println!("Switched Generation to: {}", installion_argument);
+                } else {
+                    let stderr = String::from_utf8_lossy(&output.stderr);
+                    eprintln!("Failed to execute command. error {}", stderr);
                 }
              },
 
@@ -290,26 +306,19 @@ fn main() {
                 }
             },
 
-            "update" => {
-                let output = Command::new("nix-env")
-                    .arg("-u")
-                    .output()
-                    .expect("Failed to run command");
+            "switch" =>  {
+                 let output = Command::new("nix-env")
+                     .arg("--switch-generation")
+                     .arg(installion_argument.clone())
+                     .output()
+                     .expect("Failed to run command");
+
                 if output.status.success() {
-                    println!("Successfully executed command");
+                    println!("Switched Generation to: {}", installion_argument);
                 } else {
                     let stderr = String::from_utf8_lossy(&output.stderr);
-                    eprintln!("Failed to execute command. error: {}", stderr);
+                    eprintln!("Failed to execute command. error {}", stderr);
                 }
-             },
-
-           "help" => {
-                println!("install <package name>: installs the specified package");
-                println!("delete <package name>: deletes specified package");
-                println!("clear: Garbage collects Nix");
-                println!("list: lists installed packages");
-                println!("generations: lists generations");
-
              },
 
             _ => {
