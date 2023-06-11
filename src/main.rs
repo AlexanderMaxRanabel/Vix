@@ -44,7 +44,7 @@ fn main() {
                 }
             },
 
-            "uc" => {
+            "update" => {
                 let output = Command::new("nix-channel")
                  .arg("--update")
                  .output()
@@ -65,7 +65,7 @@ fn main() {
                .expect("Failed to run command");
 
              if output.status.success() {
-                println!("Succesfully runned command");
+                println!("{:#?}", output);
             } else {
                 let stderr = String::from_utf8_lossy(&output.stderr);
                 eprintln!("Failed to run command. error: {}", stderr);
@@ -102,12 +102,12 @@ fn main() {
             "delete" => {
                 let output = Command::new("nix-env")
                     .arg("--uninstall")
-                    .arg(installion_argument)
+                    .arg(installion_argument.clone())
                     .output()
                     .expect("Failed to run command");
 
                 if output.status.success() {
-                    println!("Succesfully executed command");
+                    println!("Succesfully deleted package: {}", installion_argument.clone());
                 } else {
                     let stderr = String::from_utf8_lossy(&output.stderr);
                     eprintln!("Failed to execute command. error: {}", stderr);
@@ -119,8 +119,9 @@ fn main() {
                     .arg("--list-generations")
                     .output()
                     .expect("Failed to run command");
+
                 if output.status.success() {
-                    println!("Succesfully executed command");
+                    println!("{:#?}", output);
                 } else {
                     let stderr = String::from_utf8_lossy(&output.stderr);
                     eprintln!("Failed to execute command. error: {}", stderr);
@@ -166,7 +167,7 @@ fn main() {
              },
 
             "version" => {
-                println!("0.1.1");
+                println!("0.0.4");
             },
             _ => {
                 println!("Invalid Argument");
@@ -191,7 +192,7 @@ fn main() {
                 }
             },
 
-            "uc" => {
+            "update" => {
                 let output = Command::new("nix-channel")
                  .arg("--update")
                  .output()
@@ -213,8 +214,7 @@ fn main() {
 
              if output.status.success() {
                 println!("{:#?}", output);
-                println!("Succesfully runned command");
-            } else {
+             } else {
                 let stderr = String::from_utf8_lossy(&output.stderr);
                 eprintln!("Failed to run command. error: {}", stderr);
                 }
@@ -236,12 +236,12 @@ fn main() {
             "delete" => {
                 let output = Command::new("nix-env")
                     .arg("--uninstall")
-                    .arg(installion_argument)
+                    .arg(installion_argument.clone())
                     .output()
                     .expect("Failed to run command");
 
                 if output.status.success() {
-                    println!("Succesfully executed command");
+                    println!("Succesfully deleted package: {}", installion_argument.clone());
                 } else {
                     let stderr = String::from_utf8_lossy(&output.stderr);
                     eprintln!("Failed to execute command. error: {}", stderr);
@@ -320,6 +320,19 @@ fn main() {
                     eprintln!("Failed to execute command. error {}", stderr);
                 }
              },
+
+            "help" => {
+                println!("install <package name>: installs the specified package");
+                println!("delete <package name>: deletes specified package");
+                println!("clear: Garbage collects Nix");
+                println!("list: lists installed packages");
+                println!("generations: lists generations");
+
+             },
+
+            "version" => {
+                println!("0.0.4");
+            },
 
             _ => {
                 println!("Invalid Argument");
