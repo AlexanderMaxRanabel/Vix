@@ -65,7 +65,8 @@ fn main() {
                .expect("Failed to run command");
 
              if output.status.success() {
-                println!("{:#?}", output);
+                 let clear_output = String::from_utf8_lossy(&output.stdout);
+                 println!("{}", clear_output);
             } else {
                 let stderr = String::from_utf8_lossy(&output.stderr);
                 eprintln!("Failed to run command. error: {}", stderr);
@@ -121,7 +122,8 @@ fn main() {
                     .expect("Failed to run command");
 
                 if output.status.success() {
-                    println!("{:#?}", output);
+                    let clear_output = String::from_utf8_lossy(&output.stdout);
+                    println!("{}", clear_output);
                 } else {
                     let stderr = String::from_utf8_lossy(&output.stderr);
                     eprintln!("Failed to execute command. error: {}", stderr);
@@ -213,7 +215,8 @@ fn main() {
                .expect("Failed to run command");
 
              if output.status.success() {
-                println!("{:#?}", output);
+                let clear_output = String::from_utf8_lossy(&output.stdout);
+                println!("{}", clear_output);
              } else {
                 let stderr = String::from_utf8_lossy(&output.stderr);
                 eprintln!("Failed to run command. error: {}", stderr);
@@ -268,8 +271,8 @@ fn main() {
                     .output()
                     .expect("Failed to run command");
                 if output.status.success() {
-                    println!("{:#?}", output);
-                    println!("Succesfully executed command");
+                    let clear_output = String::from_utf8_lossy(&output.stdout);
+                    println!("{}", clear_output);
                 } else {
                     let stderr = String::from_utf8_lossy(&output.stderr);
                     eprintln!("Failed to execute command. error: {}", stderr);
@@ -331,7 +334,7 @@ fn main() {
              },
 
             "version" => {
-                println!("0.0.4");
+                println!("0.0.5");
             },
 
             _ => {
