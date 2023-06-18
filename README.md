@@ -3,7 +3,7 @@
 
 ### Dependencies
 - Rust Programming language (1.69 or later)
-- Vix Package manager (Optional because in version 0.0.2 you can install Nix With Vix)
+- Vix Package manager (Optional because starting from version 0.0.2 you can install Nix With Vix)
 - A Unix-like operating system
 - Git
 
