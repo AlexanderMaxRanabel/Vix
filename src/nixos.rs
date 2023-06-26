@@ -173,6 +173,7 @@ pub fn vixnixos(argument: &String, installion_argument: String) {
                         println!("Changed directory to Vix");
                         let vixbuild = Command::new("cargo")
                             .arg("build")
+                            .arg("--release")
                             .output()
                             .expect("Failed to bootstrap Vix");
 
@@ -185,12 +186,42 @@ pub fn vixnixos(argument: &String, installion_argument: String) {
                     } else {
                         let stderr = String::from_utf8_lossy(&vixclone.stderr);
                         eprintln!("Failed to execute command. error: {}", stderr);
+   
                     }
                 } else {
                     let stderr = String::from_utf8_lossy(&vixclone.stderr);
                     eprintln!("Failed to execute command. error: {}", stderr);
                 }
              },
+
+             "flake-init" => {
+                let flake = Command::new("nix")
+                    .arg("flake")
+                    .arg("init")
+                    .output()
+                    .expect("Failed to Init the flake");
+
+                if flake.status.success(){
+                    println!("Initilased The Flake");
+                    let add = Command::new("git")
+                        .arg("add")
+                        .arg("flake.nix")
+                        .output()
+                        .expect("");
+
+                    if add.status.success() {
+                        println!("Added flake.nix to git");
+                    } else {
+                        let stderr = String::from_utf8_lossy(&add.stderr);
+                        eprintln!("Failed to execute command. error: {}", stderr);
+                    }
+                } else {
+                    let stderr = String::from_utf8_lossy(&flake.stderr);
+                    eprintln!("Failed to execute command. error: {}", stderr);
+
+                }
+             },
+
 
              "help" => {
                 println!("install <package name>: installs the specified package");
