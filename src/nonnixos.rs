@@ -61,10 +61,10 @@ pub fn nonnixos(argument: &String, installion_argument: String) {
                 }
             },
 
-            "delete" => {
+            "remove" => {
                 let output = Command::new("nix-env")
                     .arg("--uninstall")
-                    .arg(installion_argument.clone())
+                    .arg(&installion_argument)
                     .output()
                     .expect("Failed to run command");
 
@@ -146,6 +146,44 @@ pub fn nonnixos(argument: &String, installion_argument: String) {
                 } else {
                     let stderr = String::from_utf8_lossy(&output.stderr);
                     eprintln!("Failed to execute command. error {}", stderr);
+                }
+             },
+
+             "bootstrap" => {
+                 println!("Warning. Vix Assumes you have Cargo and git installed");
+                 let vixclone = Command::new("git")
+                     .arg("clone")
+                     .arg("https://github.com/AlexanderMaxRanabel/Vix.git")
+                     .output()
+                     .expect("Failed to bootstrap Vix");
+                
+                if vixclone.status.success() {
+                    println!("Cloned Vix");
+                    let vixcd = Command::new("cd")
+                        .arg("Vix")
+                        .output()
+                        .expect("Failed to bootstrap Vix");
+
+                    if vixcd.status.success() {
+                        println!("Changed directory to Vix");
+                        let vixbuild = Command::new("cargo")
+                            .arg("build")
+                            .output()
+                            .expect("Failed to bootstrap Vix");
+
+                        if vixbuild.status.success() {
+                            println!("Vix has been builded");
+                        } else {
+                            let stderr = String::from_utf8_lossy(&vixclone.stderr);
+                            eprintln!("Failed to execute command. error: {}", stderr);                           
+                        }
+                    } else {
+                        let stderr = String::from_utf8_lossy(&vixclone.stderr);
+                        eprintln!("Failed to execute command. error: {}", stderr);
+                    }
+                } else {
+                    let stderr = String::from_utf8_lossy(&vixclone.stderr);
+                    eprintln!("Failed to execute command. error: {}", stderr);
                 }
              },
 
