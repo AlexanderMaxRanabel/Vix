@@ -187,13 +187,23 @@ pub fn nonnixos(argument: &String, installion_argument: String) {
                 }
              },
 
-            "help" => {
-                println!("install <package name>: installs the specified package");
-                println!("delete <package name>: deletes specified package");
-                println!("clear: Garbage collects Nix");
-                println!("list: lists installed packages");
-                println!("generations: lists generations");
+             "hash-file" => {
+                 let hashit = Command::new("nix")
+                     .arg("hash")
+                     .arg("file")
+                     .arg(&installion_argument)
+                     .arg("--extra-experimental-features")
+                     .arg("nix-command")
+                     .output()
+                     .expect("Failed to run command");
 
+                 if hashit.status.success() {
+                     let stdout = String::from_utf8_lossy(&hashit.stdout);
+                     println!("Hash: {}", stdout);
+                 } else {
+                     let stderr = String::from_utf8_lossy(&hashit.stderr);
+                     println!("Failed to execute command. Error: {}", stderr);
+                 }
              },
 
             "flake-init" => {
@@ -224,8 +234,18 @@ pub fn nonnixos(argument: &String, installion_argument: String) {
                 }
              },
 
+            "help" => {
+                println!("install <package name>: installs the specified package");
+                println!("delete <package name>: deletes specified package");
+                println!("clear: Garbage collects Nix");
+                println!("list: lists installed packages");
+                println!("generations: lists generations");
+                println!("flake-init: Initilazes an empty flake for your project");
+                println!("hash-file: Prints the hash of a file");
+             },
+
             "version" => {
-                println!("0.0.5");
+                println!("0.0.6");
             },
 
             _ => {
