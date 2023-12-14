@@ -2,6 +2,8 @@ use std::env;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
+use colored::*;
+
 mod nixos;
 mod nonnixos;
 
@@ -26,13 +28,12 @@ fn main() {
         let argument = &args[1].to_string();
         let installion_argument = args.get(2).map(String::clone).unwrap_or_default();
 
-
         if is_nixos() {
-            nixos::vixnixos(argument, installion_argument); 
+            nixos::vix_nixos(argument, installion_argument);
         } else {
-            nonnixos::nonnixos(argument, installion_argument);
+            nonnixos::non_nixos(argument, installion_argument);
         }
     } else {
-        println!("No argument provided.");
+        println!("{}: No argument provided", "Error".red());
     }
 }
